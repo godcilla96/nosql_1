@@ -54,10 +54,19 @@ app.get('/api', async (req, res) => {
 
 app.get("/workexperience", async (req, res) => {
     try {
-        let result = await Experience.create(req.body);
+        let result = await Experience.find({});
         return res.json(result);
     }catch(error) {
         return res.status(500).json(error);
+    }
+});
+
+app.post("/workexperience", async(req, res) => {
+    try {
+        let result = await Experience.create(req.body);
+        return res.json(result);
+    }catch(error) {
+        return res.status(400).json(error);
     }
 });
 
