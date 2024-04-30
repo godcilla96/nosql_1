@@ -52,6 +52,7 @@ app.get('/api', async (req, res) => {
     res.json({message: "welcome to this API"});
 });
 
+//inhämta data
 app.get("/workexperience", async (req, res) => {
     try {
         let result = await Experience.find({});
@@ -61,12 +62,27 @@ app.get("/workexperience", async (req, res) => {
     }
 });
 
+//lägga till data
 app.post("/workexperience", async(req, res) => {
     try {
         let result = await Experience.create(req.body);
         return res.json(result);
     }catch(error) {
         return res.status(400).json(error);
+    }
+});
+
+//radera data
+app.delete("/workexperience:id", async (req, res) => {
+    try {
+        let result = await Experience.deleteOne({ _id: req.params.id});
+        if (result.deletedCount === 1) {
+            return res.json({message: "Posten har raderats"});
+        } else {
+            return res.json(404).json({message: "Kunde inte hitta posten"});
+        }
+    } catch (error) {
+        return res.status(500).json(error);
     }
 });
 
