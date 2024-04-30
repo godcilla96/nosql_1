@@ -72,6 +72,25 @@ app.post("/workexperience", async(req, res) => {
     }
 });
 
+//uppdatera data
+app.put("/workexperience/:id", async (req, res) => {
+    try {
+        const updatedExperience = await Experience.findOneAndUpdate(
+            { _id: req.params.id },
+            req.body,
+            { new: true } //returnerar den uppdaterade posten
+    
+        );
+        if (updatedExperience) {
+            return res.json(updatedExperience);
+        } else {
+            return res.status(404).json({ message: "Kunde inte uppdatera posten"});
+        }
+    } catch (error) {
+        return res.status(500).json(error);
+    }
+});
+
 //radera data
 app.delete("/workexperience:id", async (req, res) => {
     try {
