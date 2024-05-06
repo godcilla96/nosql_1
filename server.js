@@ -72,6 +72,22 @@ app.post("/workexperience", async(req, res) => {
     }
 });
 
+//radera data
+app.delete("/workexperience/:id", async (req, res) => {
+    try {
+        //använder findByIdAndDelete för att hitta och radera en post baserat på ID
+        const deletedExperience = await Experience.findByIdAndDelete(req.params.id);
+        
+        if (deletedExperience) {
+            return res.json({ message: "Posten har raderats" });
+        } else {
+            return res.status(404).json({ message: "Kunde inte hitta posten" });
+        }
+    } catch (error) {
+        return res.status(500).json(error);
+    }
+});
+
 //uppdatera data
 app.put("/workexperience/:id", async (req, res) => {
     try {
@@ -91,19 +107,7 @@ app.put("/workexperience/:id", async (req, res) => {
     }
 });
 
-//radera data
-app.delete("/workexperience:id", async (req, res) => {
-    try {
-        let result = await Experience.deleteOne({ _id: req.params.id});
-        if (result.deletedCount === 1) {
-            return res.json({message: "Posten har raderats"});
-        } else {
-            return res.json(404).json({message: "Kunde inte hitta posten"});
-        }
-    } catch (error) {
-        return res.status(500).json(error);
-    }
-});
+
 
 app.listen(port, () => {
     console.log("Server startad på port: " + port);
